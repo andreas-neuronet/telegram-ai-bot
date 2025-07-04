@@ -1,0 +1,31 @@
+name: Schedule Telegram Posts
+
+on:
+  schedule:
+    - cron: '30 19 * * *'  # 22:30 по МСК (UTC+3) — это 19:30 UTC
+    - cron: '30 20 * * *'  # Следующие посты каждый час (20:30 UTC = 23:30 МСК и т.д.)
+    # Добавьте остальные временные метки по аналогии.
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run bot
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python telegram_bot.py
