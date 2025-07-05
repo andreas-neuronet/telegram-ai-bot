@@ -3,8 +3,7 @@ name: Schedule Telegram Posts
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 19 * * *'  # 22:30 по МСК (UTC+3) — это 19:30 UTC
-    - cron: '30 20 * * *'  # Следующие посты каждый час (20:30 UTC = 23:30 МСК и т.д.)
+    - cron: '30 * * * *'  # Каждый час в 30 минут   
 
 jobs:
   publish:
